@@ -17,14 +17,20 @@ export type MessageType = {
   id: string;
 };
 
+// 👇 👇 👇 👇 👇 👇 👇
+
 app.get('/messages', async (req, res) =>
+  // Get all messages
   res.status(200).json(await getMessages())
 );
 
 app.post('/messages', async (req, res) => {
+  // Post a message
   await postMessage(req.body);
   res.sendStatus(200);
 });
+
+// 👆 👆 👆 👆 👆 👆 👆
 
 app.get('/users', (req, res) => {
   res.status(200).json(users);
