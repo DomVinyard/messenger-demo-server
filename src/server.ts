@@ -11,8 +11,8 @@ app.use(express.json());
 
 export type MessageType = {
   content: string;
-  recipientId: string;
-  senderId: string;
+  recipientid: string;
+  senderid: string;
   timestamp: number;
   id: string;
 };

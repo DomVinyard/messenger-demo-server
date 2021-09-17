@@ -1,6 +1,5 @@
 import { MessageType } from './server';
 import fs from 'fs';
-
 const MESSAGES_JSON = 'src/data/messages.json';
 
 export const getMessages = async () => {
