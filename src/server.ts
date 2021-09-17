@@ -1,46 +1,32 @@
-import cors from "cors";
-import express from "express";
-import { v4 as uuid } from "uuid";
-
-import messages from "./data/messages.json";
-import users from "./data/users.json";
+import cors from 'cors';
+import express from 'express';
+import users from './data/users.json';
+import { getMessages, postMessage } from './actions';
 
 const PORT_NUMBER = 4000;
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
-app.get("/messages", (req, res) => {
-  res.status(200).json(messages);
+export type MessageType = {
+  content: string;
+  recipientId: string;
+  senderId: string;
+  timestamp: number;
+  id: string;
+};
+
+app.get('/messages', async (req, res) =>
+  res.status(200).json(await getMessages())
+);
+
+app.post('/messages', async (req, res) => {
+  await postMessage(req.body);
+  res.sendStatus(200);
 });
 
-app.post("/messages", (req, res) => {
-  console.log(req);
-
-  if (!req.body) {
-    res.status(400).json({ message: "Missing request body" });
-  }
-
-  const { content, recipientId, senderId } = req.body;
-
-  if (!content || !recipientId || !senderId) {
-    res.status(400).json({ message: "Missing required fields" });
-  }
-
-  const message = {
-    content,
-    recipientId,
-    senderId,
-    timestamp: new Date().getTime(),
-    id: uuid(),
-  };
-
-  // store the message in the DB
-
-  res.status(200).json(messages);
-});
-
-app.get("/users", (req, res) => {
+app.get('/users', (req, res) => {
   res.status(200).json(users);
 });
 
